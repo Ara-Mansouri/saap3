@@ -1,6 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using SAAP.Educational.Modules.Courses.Application;
 using SAAP.Educational.Modules.Courses.Infrastructure;
 using SAAP.Educational.Modules.Courses.Presentation;
+using SAAP.Educational.Modules.Identity.Infrastructure;
+using SAAP.Educational.Modules.Identity.Infrastructure.Persistence;
 using SAAP.Educational.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,8 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddIdentityInfrastructure(
+    builder.Configuration);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -27,5 +32,27 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
 
+    var dbContext = scope.ServiceProvider
+        .GetRequiredService<IdentityDbContext>();
+
+    try
+    {
+        await dbContext.Database.OpenConnectionAsync();
+
+        app.Logger.LogInformation(
+            "Identity database connection succeeded.");
+
+        await dbContext.Database.CloseConnectionAsync();
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(
+            ex,
+            "Identity database connection failed.");
+    }
+}
 app.Run();

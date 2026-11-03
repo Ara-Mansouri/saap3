@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SAAP.Educational.Modules.Identity.Application\SAAP.Educational.Modules.Identity.Application.csproj" />
+    <ProjectReference Include="..\..\SAAP.Educational.Modules.Identity.Infrastructure\SAAP.Educational.Modules.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\SAAP.Educational.Modules.Identity.Presentation\SAAP.Educational.Modules.Identity.Presentation.csproj" />
     <ProjectReference Include="..\Modules\Courses\SAAP.Educational.Modules.Courses.Presentation\SAAP.Educational.Modules.Courses.Presentation.csproj" />
     <ProjectReference Include="..\SAAP.Educational.Shared\SAAP.Educational.Shared.csproj" />
   </ItemGroup>
